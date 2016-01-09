@@ -1,0 +1,55 @@
+
+/*! * [Scalable Text in CSS with Maximum and Minimum Sizes](https://github.com/kevinmack18/SCALABLE-TEXT-IN-CSS) */
+ // * Github: https://github.com/kevinmack18/SCALABLE-TEXT-IN-CSS
+ // * Demo: http://codepen.io/kevinmack18/pen/OyRwKq?editors=110
+ // * Released under the MIT license
+ // * https://github.com/kevinmack18/SCALABLE-TEXT-IN-CSS/blob/master/LICENSE
+ // * Version: v1.0.0
+ // * Date: 2016-01-09
+
+@mixin calcScalableFont($context-width, $base-font-size, $limit-font-size, $scale) {
+	$scaleFactor: if(($scale == down), true, false); // determine direction of scale
+	$scaleBoth: if(($scaleFactor == false and $scale != up), true, false); // scales "up and down"
+	$limit-font-size-min: if($scaleBoth, $scale, false); // only if using "up and down" scale
+	$max-width: ($limit-font-size / ($base-font-size / $context-width)); // width to calculate scaling
+	$min-width: if(($limit-font-size-min), ($limit-font-size-min / ($base-font-size / $context-width)), $max-width);
+	
+	@media screen and (if($scaleFactor, min-width, max-width): $context-width) {
+		@if ($scaleBoth) {	
+			@media screen and (max-width: $min-width)  {
+				font-size: $limit-font-size-min;
+			}		
+		} @else {
+			font-size: $base-font-size;
+		}
+	}
+	
+	@if ($scaleBoth) {
+		@media screen and (if($scaleFactor, max-width, min-width): $context-width) and (min-width: $min-width), screen and (if($scaleFactor, min-width, max-width): $context-width) and (min-width: $min-width) { 
+			font-size: (($base-font-size / $context-width) * 100)#{vw};
+		}
+	}
+
+	@media screen and (if($scaleFactor, max-width, min-width): $context-width) {
+		@if ($scaleBoth == false) {
+			@media screen and (if($scaleFactor, min-width, max-width): $max-width)  { 
+				font-size: (($base-font-size / $context-width) * 100)#{vw};
+			}
+		}
+		@media screen and (if($scaleFactor, max-width, min-width): $max-width) {
+			font-size: $limit-font-size; // don't go below 16px!
+		}
+	}
+}
+
+@mixin scaleFont($context-width, $base-font-size, $limit-font-size-min, $limit-font-size-max) {
+	@include calcScalableFont($context-width, $base-font-size, $limit-font-size-max, $limit-font-size-min);
+}
+
+@mixin scaleFontUp($context-width, $base-font-size, $limit-font-size) {
+	@include calcScalableFont($context-width, $base-font-size, $limit-font-size, up);
+}
+
+@mixin scaleFontDown($context-width, $base-font-size, $limit-font-size) {
+	@include calcScalableFont($context-width, $base-font-size, $limit-font-size, down);
+}
