@@ -1,6 +1,7 @@
 # Scalable Text in CSS with Maximum and Minimum Sizes
 Scale font-size property based on viewport width using only CSS. The following CSS units will work: em, rem, px, ch, cm, mm, in, pt, pc.
 
+
 ## MIXINS
 Mixins have up to four values that need to be passed:
 
@@ -32,10 +33,11 @@ Scales font "up" as browser gets wider with a maximum set font-size and scales f
 
 ### `scaleFontUp()`
 Scales font "up" as browser gets wider with a maximum set font-size.
+
 ````
 	@include scaleFontUp(context-width, base-font-size, limit-font-size-max);
-	
 ````
+
 ````
 	.selector-name { // apply to any selector
 
@@ -50,6 +52,7 @@ Scales font "up" as browser gets wider with a maximum set font-size.
 
 ### `scaleFontDown()`
 Scales font "down" as browser gets thinner with a minimum set font-size.
+
 ````
 	@include scaleFontDown(context-width, base-font-size, limit-font-size-min);
 ````
