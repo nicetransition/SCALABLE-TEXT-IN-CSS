@@ -22,11 +22,13 @@ Scales font "up" as browser gets wider with a maximum set font-size and scales f
 	.selector-name { // apply to any selector
 
 		@include scaleFont(62.5rem, 4rem, 1.875rem, 6.25rem);
+
 		// 4 required arguments:
 		// 62.5rem: context-width
 		// 4rem: base-font-size
 		// 1.875rem: limit-font-size-min
 		// 6.25rem: limit-font-size-max
+
 	}
 ```
 
@@ -42,10 +44,12 @@ Scales font "up" as browser gets wider with a maximum set font-size.
 	.selector-name { // apply to any selector
 
 		@include scaleFontUp(62.5rem, 4rem, 6.25rem);
+
 		// 3 required arguments:
 		// 62.5rem: context-width
 		// 4rem: base-font-size
 		// 6.25rem: limit-font-size-max
+
 	}
 ````
 
@@ -58,12 +62,14 @@ Scales font "down" as browser gets thinner with a minimum set font-size.
 ````
 
 ````
-.selector-name { // apply to any selector
+	.selector-name { // apply to any selector
 
-	@include scaleFontDown(62.5rem, 4rem,  1.875rem);
-	// 3 required arguments:
-	// 62.5rem: context-width
-	// 4rem: base-font-size
-	// 1.875rem: limit-font-size-min
-}
+		@include scaleFontDown(62.5rem, 4rem,  1.875rem);
+
+		// 3 required arguments:
+		// 62.5rem: context-width
+		// 4rem: base-font-size
+		// 1.875rem: limit-font-size-min
+		
+	}
 ````
