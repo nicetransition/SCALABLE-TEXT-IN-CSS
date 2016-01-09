@@ -1,4 +1,3 @@
-
 /*! * [Scalable Text in CSS with Maximum and Minimum Sizes](https://github.com/kevinmack18/SCALABLE-TEXT-IN-CSS) */
  // * Github: https://github.com/kevinmack18/SCALABLE-TEXT-IN-CSS
  // * Demo: http://codepen.io/kevinmack18/pen/OyRwKq?editors=110
@@ -6,6 +5,7 @@
  // * https://github.com/kevinmack18/SCALABLE-TEXT-IN-CSS/blob/master/LICENSE
  // * Version: v1.0.0
  // * Date: 2016-01-09
+
 
 @mixin calcScalableFont($context-width, $base-font-size, $limit-font-size, $scale) {
 	$scaleFactor: if(($scale == down), true, false); // determine direction of scale
