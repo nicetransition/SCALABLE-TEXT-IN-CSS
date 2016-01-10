@@ -1,6 +1,8 @@
 # Scalable Text in CSS with Maximum and Minimum Sizes
 Scale font-size property based on viewport width using only CSS. The following CSS units will work: em, rem, px, ch, cm, mm, in, pt, pc.
 
+* > [Demo on CodePen](http://codepen.io/kevinmack18/pen/OyRwKq?editors=110)
+
 
 ## MIXINS
 Mixins have up to four values that need to be passed:
@@ -72,4 +74,86 @@ Scales font "down" as browser gets thinner with a minimum set font-size.
 		// 1.875rem: limit-font-size-min
 		
 	}
+````
+
+
+## Examples
+
+### Scale Up & Down
+**Sass**:
+````
+.u-scalable-1 {
+	@include scaleFont(77.5rem, 4rem, 1.875rem, 6.250rem);
+}
+````
+**Compiled CSS**:
+````
+@media screen and (max-width: 77.5rem) and (max-width: 36.32813rem) {
+  .u-scalable-1 {
+    font-size: 1.875rem;
+  }
+}
+
+@media screen and (min-width: 77.5rem) and (min-width: 36.32813rem), screen and (max-width: 77.5rem) and (min-width: 36.32813rem) {
+  .u-scalable-1 {
+    font-size: 5.16129vw;
+  }
+}
+@media screen and (min-width: 77.5rem) and (min-width: 121.09375rem) {
+  .u-scalable-1 {
+    font-size: 6.25rem;
+  }
+}
+````
+
+### Scale Up
+**Sass**:
+````
+.u-scalable-2 {
+	@include scaleFontUp(77.5rem, 3rem, 3.75rem);
+}
+````
+**Compiled CSS**:
+````
+@media screen and (max-width: 77.5rem) {
+  .u-scalable-2 {
+    font-size: 3rem;
+  }
+}
+@media screen and (min-width: 77.5rem) and (max-width: 96.875rem) {
+  .u-scalable-2 {
+    font-size: 3.87097vw;
+  }
+}
+@media screen and (min-width: 77.5rem) and (min-width: 96.875rem) {
+  .u-scalable-2 {
+    font-size: 3.75rem;
+  }
+}
+````
+
+### Scale Down
+**Sass**:
+````
+.u-scalable-3 {
+	@include scaleFontDown(77.5rem, 3rem, 1.125rem);
+}
+````
+**Compiled CSS**:
+````
+@media screen and (min-width: 77.5rem) {
+  .u-scalable-3 {
+    font-size: 3rem;
+  }
+}
+@media screen and (max-width: 77.5rem) and (min-width: 29.0625rem) {
+  .u-scalable-3 {
+    font-size: 3.87097vw;
+  }
+}
+@media screen and (max-width: 77.5rem) and (max-width: 29.0625rem) {
+  .u-scalable-3 {
+    font-size: 1.125rem;
+  }
+}
 ````
