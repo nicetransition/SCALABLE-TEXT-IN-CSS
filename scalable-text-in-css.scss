@@ -1,45 +1,48 @@
 /*! * [Scalable Text in CSS with Maximum and Minimum Sizes](https://github.com/kevinmack18/SCALABLE-TEXT-IN-CSS) */
  // * Github: https://github.com/kevinmack18/SCALABLE-TEXT-IN-CSS
- // * Demo: http://codepen.io/kevinmack18/pen/OyRwKq?editors=110
  // * Released under the MIT license
  // * https://github.com/kevinmack18/SCALABLE-TEXT-IN-CSS/blob/master/LICENSE
- // * Version: v1.0.1
- // * Date: 2016-01-11
+ // * Version: v1.1.0
+ // * Date Created: 2016-01-11
+ // * Date Updated: 2020-02-20
 
-
-@mixin calcScalableFont($context-width, $base-font-size, $limit-font-size, $scale) {
+@mixin calcScalableProperty($context, $base-size, $limit-size, $scale, $property: font-size, $width: true) {
 	$scaleFactor: if(($scale == down), true, false); // determine direction of scale
 	$scaleBoth: if(($scaleFactor == false and $scale != up), true, false); // scales "up and down"
-	$limit-font-size-min: if($scaleBoth, $scale, false); // only if using "up and down" scale
-	$max-width: ($limit-font-size / ($base-font-size / $context-width)); // width to calculate scaling
-	$min-width: if(($limit-font-size-min), ($limit-font-size-min / ($base-font-size / $context-width)), $max-width);
+	$limit-size-min: if($scaleBoth, $scale, false); // only if using "up and down" scale
+	$max: ($limit-size / ($base-size / $context)); // width or height to calculate scaling
+	$min: if(($limit-size-min), ($limit-size-min / ($base-size / $context)), $max);
 	
-	@media screen and (if($scaleFactor, min-width, max-width): $context-width) {
+	@media screen and (if($width, if($scaleFactor, min-width, max-width), if($scaleFactor, min-height, max-height)): $context) {
 		@if ($scaleBoth) {	
-			@media screen and (max-width: $min-width)  {
-				font-size: $limit-font-size-min;
+			@media screen and (if($width, max-width, max-height): $min)  {
+				#{$property}: $limit-size-min;
 			}		
 		} @else {
-			font-size: $base-font-size;
+			#{$property}: $base-size;
 		}
 	}
 	
 	@if ($scaleBoth) {
-		@media screen and (if($scaleFactor, max-width, min-width): $context-width) and (min-width: $min-width), screen and (if($scaleFactor, min-width, max-width): $context-width) and (min-width: $min-width) { 
-			font-size: (($base-font-size / $context-width) * 100)#{vw};
+		@media screen and (if($width, if($scaleFactor, max-width, min-width), if($scaleFactor, max-height, min-height)): $context) and (min-width: $min), screen and (if($scaleFactor, min-width, max-width): $context) and (min-width: $min) { 
+			#{$property}: (($base-size / $context) * 100)#{if($width,vw,vh)};
 		}
 	}
 
-	@media screen and (if($scaleFactor, max-width, min-width): $context-width) {
+	@media screen and (if($width, if($scaleFactor, max-width, min-width), if($scaleFactor, max-height, min-height)): $context) {
 		@if ($scaleBoth == false) {
-			@media screen and (if($scaleFactor, min-width, max-width): $max-width)  { 
-				font-size: (($base-font-size / $context-width) * 100)#{vw};
+			@media screen and (if($scaleFactor, min-width, max-width): $max)  { 
+				#{$property}: (($base-size / $context) * 100)#{if($width,vw,vh)};
 			}
 		}
-		@media screen and (if($scaleFactor, max-width, min-width): $max-width) {
-			font-size: $limit-font-size; // don't go below 16px!
+		@media screen and (if($width, if($scaleFactor, max-width, min-width), if($scaleFactor, max-height, min-height)): $max) {
+			#{$property}: $limit-size; // don't go below 16px!
 		}
 	}
+}
+
+@mixin calcScalableFont($context-width, $base-font-size, $limit-font-size, $scale, $property: font-size) { // legacy support fallback for `v1.0.1`
+	@include calcScalableProperty($context-width, $base-font-size, $limit-font-size, $scale, $property);
 }
 
 @mixin scaleFont($context-width, $base-font-size, $limit-font-size-min, $limit-font-size-max) {
@@ -52,4 +55,16 @@
 
 @mixin scaleFontDown($context-width, $base-font-size, $limit-font-size) {
 	@include calcScalableFont($context-width, $base-font-size, $limit-font-size, down);
+}
+
+@mixin scale($context, $base-size, $limit-size-min, $limit-size-max, $property, $width) {
+	@include calcScalableProperty($context, $base-size, $limit-size-max, $limit-size-min, $property, $width);
+}
+
+@mixin scaleUp($context, $base-size, $limit-size, $property, $width) {
+	@include calcScalableProperty($context, $base-size, $limit-size, up, $property, $width);
+}
+
+@mixin scaleDown($context, $base-size, $limit-size, $property, $width) {
+	@include calcScalableProperty($context, $base-size, $limit-size, down, $property, $width);
 }
