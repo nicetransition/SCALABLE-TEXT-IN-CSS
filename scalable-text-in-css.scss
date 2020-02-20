@@ -57,14 +57,14 @@
 	@include calcScalableFont($context-width, $base-font-size, $limit-font-size, down);
 }
 
-@mixin scale($context, $base-size, $limit-size-min, $limit-size-max, $property, $width) {
+@mixin scale($context, $base-size, $limit-size-min, $limit-size-max, $property: font-size, $width: true) {
 	@include calcScalableProperty($context, $base-size, $limit-size-max, $limit-size-min, $property, $width);
 }
 
-@mixin scaleUp($context, $base-size, $limit-size, $property, $width) {
+@mixin scaleUp($context, $base-size, $limit-size, $property: font-size, $width: true) {
 	@include calcScalableProperty($context, $base-size, $limit-size, up, $property, $width);
 }
 
-@mixin scaleDown($context, $base-size, $limit-size, $property, $width) {
+@mixin scaleDown($context, $base-size, $limit-size, $property: font-size, $width: true) {
 	@include calcScalableProperty($context, $base-size, $limit-size, down, $property, $width);
 }
